@@ -1,83 +1,211 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Self-Correcting Agent Loop</title>
+    <meta name="theme-color" content="#f97316">
+    <meta name="description" content="A local multi-agent AI system that generates, reviews, and improves answers using Ollama.">
+    <title>Self-Correcting AI | Multi-Agent System</title>
     <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}">
 </head>
 <body>
     <main class="page-shell">
+
+        <header class="topbar">
+            <a class="brand" href="/" aria-label="Self-Correcting AI home">
+                <span class="brand-icon" aria-hidden="true">AI</span>
+                <span class="brand-name">Self-Correcting AI</span>
+            </a>
+            <span class="local-indicator">
+                <span class="status-dot"></span>
+                Local inference
+            </span>
+        </header>
+
         <section class="hero">
-            <div>
-                <span class="eyebrow">LangGraph · Ollama ™ AI ·</span>
-                <h1>Self-Correcting Multi-Agent System</h1>
+            <div class="hero-content">
+                <span class="eyebrow">LANGGRAPH · OLLAMA · MULTI-AGENT AI</span>
+                <h1>Better answers through <span class="accent-text">self-correction.</span></h1>
                 <p class="hero-copy">
-                    A Writer → Reviewer → Reviser workflow powered by Ollama  that improves an answer until the reviewer accepts it.
+                    A multi-agent workflow where AI generates an answer, reviews its quality,
+                    and refines it through an iterative feedback loop.
                 </p>
+                <a class="hero-link" href="#agent-workflow">
+                    Explore the workflow <span aria-hidden="true">↓</span>
+                </a>
             </div>
-            <div class="loop-badge">↻ AI agent loop</div>
+
+            <div class="hero-visual" aria-label="Three collaborating AI agents">
+                <div class="visual-orbit orbit-one"></div>
+                <div class="visual-orbit orbit-two"></div>
+                <div class="visual-core">AI</div>
+                <div class="floating-agent floating-writer">
+                    <span class="agent-symbol">W</span>
+                    <span><strong>Writer</strong><small>Generate</small></span>
+                </div>
+                <div class="floating-agent floating-reviewer">
+                    <span class="agent-symbol">R</span>
+                    <span><strong>Reviewer</strong><small>Evaluate</small></span>
+                </div>
+                <div class="floating-agent floating-reviser">
+                    <span class="agent-symbol">↻</span>
+                    <span><strong>Reviser</strong><small>Improve</small></span>
+                </div>
+            </div>
         </section>
 
-        <section class="inference-strip" aria-label="Inference configuration">
-            <div>
-                <span>Inference</span>
-                <strong>{{ runtime.provider }}</strong>
+        <section class="system-panel" aria-label="Runtime configuration">
+            <div class="panel-heading">
+                <div>
+                    <span class="eyebrow">SYSTEM CONFIGURATION</span>
+                    <h2>Runtime overview</h2>
+                </div>
+                <span class="config-label">Current session</span>
             </div>
-            {% if runtime.router_enabled %}
-            <div>
-                <span>Routing</span>
-                <strong>router:{{ runtime.router }}</strong>
+
+            <div class="inference-strip">
+                <div class="config-item">
+                    <span class="config-icon">01</span>
+                    <div>
+                        <span class="config-label">Inference provider</span>
+                        <strong>{{ runtime.provider }}</strong>
+                    </div>
+                </div>
+                {% if runtime.router_enabled %}
+                <div class="config-item">
+                    <span class="config-icon">02</span>
+                    <div>
+                        <span class="config-label">Model routing</span>
+                        <strong>{{ runtime.router }}</strong>
+                    </div>
+                </div>
+                {% else %}
+                <div class="config-item">
+                    <span class="config-icon">02</span>
+                    <div>
+                        <span class="config-label">Writer model</span>
+                        <strong>{{ runtime.writer_model }}</strong>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="config-item">
+                    <span class="config-icon">03</span>
+                    <div>
+                        <span class="config-label">Revision limit</span>
+                        <strong>{{ runtime.max_revisions }}</strong>
+                    </div>
+                </div>
             </div>
-            {% else %}
-            <div>
-                <span>Model</span>
-                <strong>{{ runtime.writer_model }}</strong>
-            </div>
-            {% endif %}
         </section>
 
-        <section class="workflow" aria-label="Agent workflow">
-            <div class="workflow-node"><span>1</span><strong>Writer</strong><small>Create</small></div>
-            <div class="arrow">→</div>
-            <div class="workflow-node"><span>2</span><strong>Reviewer</strong><small>Evaluate</small></div>
-            <div class="arrow">→</div>
-            <div class="workflow-node"><span>3</span><strong>Reviser</strong><small>Improve</small></div>
-            <div class="loop-arrow">↩ Reviewer</div>
+        <section id="agent-workflow" class="workflow-section">
+            <div class="section-intro">
+                <span class="eyebrow">HOW IT WORKS</span>
+                <h2>Three agents. One feedback loop.</h2>
+                <p>Each agent has a specific responsibility in the answer improvement process.</p>
+            </div>
+
+            <div class="workflow">
+                <article class="workflow-node">
+                    <div class="workflow-node-top">
+                        <span class="agent-number">01</span>
+                        <span class="agent-tag">CREATE</span>
+                    </div>
+                    <div class="workflow-icon writer-icon">W</div>
+                    <h3>Writer</h3>
+                    <p>Creates an initial response to your topic.</p>
+                </article>
+
+                <div class="workflow-connector" aria-hidden="true">→</div>
+
+                <article class="workflow-node">
+                    <div class="workflow-node-top">
+                        <span class="agent-number">02</span>
+                        <span class="agent-tag">EVALUATE</span>
+                    </div>
+                    <div class="workflow-icon reviewer-icon">R</div>
+                    <h3>Reviewer</h3>
+                    <p>Evaluates the response and provides feedback.</p>
+                </article>
+
+                <div class="workflow-connector" aria-hidden="true">→</div>
+
+                <article class="workflow-node">
+                    <div class="workflow-node-top">
+                        <span class="agent-number">03</span>
+                        <span class="agent-tag">REFINE</span>
+                    </div>
+                    <div class="workflow-icon reviser-icon">↻</div>
+                    <h3>Reviser</h3>
+                    <p>Improves the draft using reviewer feedback.</p>
+                </article>
+            </div>
+
+            <div class="loop-note">
+                <span class="loop-note-icon">↻</span>
+                <p><strong>Iterative feedback:</strong> the revised answer returns to the Reviewer until it passes or the revision limit is reached.</p>
+            </div>
         </section>
 
         <section class="input-card">
-            <label for="topic">What should the agents explain?</label>
+            <div class="input-card-heading">
+                <span class="eyebrow">TRY IT YOURSELF</span>
+                <h2>What should the agents explain?</h2>
+                <p>Enter a question or topic to start the self-correction workflow.</p>
+            </div>
+
+            <label for="topic">Your topic</label>
             <div class="input-row">
-                <input id="topic" type="text" value="{{ example_topic }}" maxlength="300" autocomplete="off">
-                <button id="runButton" type="button">Run Agent Loop</button>
+                <input
+                    id="topic"
+                    type="text"
+                    value="{{ example_topic }}"
+                    maxlength="300"
+                    autocomplete="off"
+                    placeholder="e.g. Explain how retrieval-augmented generation works"
+                >
+                <button id="runButton" type="button">
+                    <span>Run Agent Loop</span>
+                    <span aria-hidden="true">→</span>
+                </button>
             </div>
             <p class="hint">Try: “Explain recursion in programming” or “What is RAG?”</p>
         </section>
 
-        <section id="status" class="status hidden" aria-live="polite"></section>
+        <section id="status" class="status hidden" aria-live="polite" role="status"></section>
 
         <section id="results" class="results hidden">
             <div class="section-heading">
                 <div>
-                    <span class="eyebrow">Execution trace</span>
-                    <h2>Watch the correction loop</h2>
+                    <span class="eyebrow">LIVE EXECUTION TRACE</span>
+                    <h2>Agent activity</h2>
+                    <p class="section-description">Follow how the response develops at each stage.</p>
                 </div>
                 <div id="summaryBadge" class="summary-badge"></div>
             </div>
+
             <div id="timeline" class="timeline"></div>
+
             <div class="final-card">
                 <div class="final-heading">
                     <div>
-                        <span class="eyebrow">Final output</span>
-                        <h2>Accepted Answer</h2>
+                        <span class="eyebrow">WORKFLOW RESULT</span>
+                        <h2>Final answer</h2>
                     </div>
                     <span id="finalDecision" class="decision"></span>
                 </div>
                 <div id="finalAnswer" class="answer"></div>
             </div>
         </section>
+
+        <footer class="page-footer">
+            <span>Self-Correcting Multi-Agent System</span>
+            <span>Powered by local Ollama models</span>
+        </footer>
+
     </main>
+
     <script src="{{ url_for('static', path='/app.js') }}"></script>
 </body>
 </html>
